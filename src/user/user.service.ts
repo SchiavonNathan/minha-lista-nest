@@ -7,7 +7,6 @@ export class UserService {
 
     constructor(private prisma: PrismaService) {}
 
-
     async create(data: userDTO) {
         
         const userExists = await this.prisma.user.findFirst({
@@ -25,6 +24,25 @@ export class UserService {
         })
 
         return user
+    }
+
+    async update(id: string, data: userDTO) {
+        const userExists = await this.prisma.user.findFirst({
+            where:{
+                id,
+            }
+        });
+
+        if (!userExists) {
+            throw new Error('Usuario inexistente')
+        }
+
+        return await this.prisma.user.update({
+            data,
+            where:{
+                id,
+            },
+        })
     }
 
 }
