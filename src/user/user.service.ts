@@ -45,4 +45,26 @@ export class UserService {
         })
     }
 
+    async delete(id: string) {
+        const userExists = await this.prisma.user.findFirst({
+            where:{
+                id,
+            },
+        });
+
+        if (!userExists) {
+            throw new Error('Usuario inexistente')
+        }
+
+        return this.prisma.user.delete({
+            where:{
+                id,
+            },
+        })
+    }
+
+    async findAll() {
+        return this.prisma.user.findMany()
+    }
+
 }
