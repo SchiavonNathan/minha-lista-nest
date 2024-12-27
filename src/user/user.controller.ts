@@ -16,6 +16,11 @@ export class UserController {
     async create(@Body() data: userDTO) {
         return this.userService.create(data)
     }
+    
+    @Post("login")
+    async login(@Body() data) {
+        return this.userService.login(data)
+    }
 
     @Put("/update/:id")
     async update(@Param("id") id: string, @Body() data: userDTO) {

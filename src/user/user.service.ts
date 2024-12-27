@@ -26,6 +26,26 @@ export class UserService {
         return user
     }
 
+    async login(data) {
+        const userExists = await this.prisma.user.findFirst({
+            where:{
+                email: data.email
+            }
+        });
+
+        if (!userExists) {
+            throw new Error('O Email não possui cadastro!')
+        }
+
+        if(
+            (data.password !== userExists.password)||(data.email !== userExists.email)
+        ) {
+            throw new Error('Email ou senha incorretos!')
+        }
+        
+        return userExists
+    }
+
     async update(id: string, data: userDTO) {
         const userExists = await this.prisma.user.findFirst({
             where:{
