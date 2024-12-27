@@ -8,6 +8,8 @@ export class UserService {
     constructor(private prisma: PrismaService) {}
 
     async create(data: userDTO) {
+
+        data.email = data.email.toLowerCase();
         
         const userExists = await this.prisma.user.findFirst({
             where:{
@@ -18,7 +20,7 @@ export class UserService {
         if (userExists) {
             throw new Error('O Email já está sendo usado')
         }
-        
+
         const user = await this.prisma.user.create({
             data,
         })
@@ -27,6 +29,9 @@ export class UserService {
     }
 
     async login(data) {
+
+        data.email = data.email.toLowerCase();
+
         const userExists = await this.prisma.user.findFirst({
             where:{
                 email: data.email
