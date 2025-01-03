@@ -92,4 +92,18 @@ export class UserService {
         return this.prisma.user.findMany()
     }
 
+    async findByEmail(email: string) {
+        const userExists = await this.prisma.user.findFirst({
+            where:{
+                email,
+            },
+        });
+
+        if (!userExists) {
+            throw new Error('Usuario inexistente')
+        }
+
+        return userExists
+    }
+
 }

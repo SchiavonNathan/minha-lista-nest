@@ -12,6 +12,11 @@ export class UserController {
         return this.userService.findAll()
     }
 
+    @Get("find/:email")
+    async findByEmail(@Param("email") email: any) {
+        return this.userService.findByEmail(email)
+    }
+
     @Post()
     async create(@Body() data: userDTO) {
         return this.userService.create(data)
